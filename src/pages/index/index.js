@@ -4,7 +4,9 @@ import {
     View,
     Image,
     Text,
-    ScrollView
+    ScrollView,
+    AsyncStorage,
+    DeviceEventEmitter
 } from 'react-native';
 
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -18,43 +20,54 @@ import navigationScreen from './navigation';
 import LoginBar from './loginBar';
 import ScanBtn from './scanBtn';
 import Nearby from './nearby/nearby';
-
-var REQUEST_URL = ' https://www.easy-mock.com/mock/59f1818bdbc658638781c402/test20171026/market';
+import fetchRequest from '../../utils/request';
 
 class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             market: null,
+            longitude:'',
+            latitude:'',
+            logined:false,
+            user:null
         };
     }
 
     componentDidMount() {
-        this.fetchData();
+        let params = {
+            longitude:this.state.longitude,
+            latitude:this.state.latitude
+        }
+        fetchRequest('api/index/near','POST',params)
+            .then( res=>{
+                //请求成功
+                if(res.success){
+                    //这里设定服务器返回的res中success为true时数据返回成功
+                    this.setState({
+                        market: res.data.market,
+                    });
+                }
+            }).catch( err=>{
+            //请求失败
+        })
+        this.asyncAppStatus()
+        // this.deleteAppStatus()
+
+        DeviceEventEmitter.addListener('ChangeLoginStatus',(arg)=>{
+            //接收到详情页发送的通知，刷新首页的数据，改变按钮颜色和文字，刷新UI
+            this.setState({
+                logined:arg.logined
+            });
+        });
+
     }
 
-
-    fetchData() {
-        fetch(REQUEST_URL)
-            .then((response) => response.json())
-            .then((responseData) => {
-                this.setState({
-                    market: responseData.data[0].market,
-                });
-                console.log(this.state.market);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .done();
-    }
     render() {
         if (!this.state.market) {
             return this.renderLoadingView();
         }
-
-        var market = this.state.market;
-        return this.renderComplete(market);
+        return this.renderComplete(this.state.market);
     }
     renderLoadingView() {
         return (
@@ -65,16 +78,43 @@ class HomeScreen extends React.Component {
     }
 
     renderComplete(market) {
-        const { navigate } = this.props.navigation;
+        const { navigate , goBack } = this.props.navigation;
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <LoginBar navigate={navigate}/>
+                    {
+                        !this.state.logined ? <LoginBar navigate={navigate} goBack={goBack}/> : null
+                    }
                     <ScanBtn navigate={navigate}/>
                     <Nearby navigate={navigate} market={market}/>
                 </View>
             </ScrollView>
         );
+    }
+
+    //判断本地登录状态
+    asyncAppStatus(){
+        AsyncStorage.getItem('user')
+            .then((data) => {
+                let user
+                let newState = {}
+
+                if(data){
+                    user = JSON.parse(data)
+                }
+
+                if(user && user.accessToken){
+                    newState.user = user
+                    newState.logined = true
+                }else{
+                    newState.logined = false
+                }
+                this.setState(newState)
+            })
+    }
+    //删除已经保存的数据
+    deleteAppStatus() {
+        AsyncStorage.removeItem('user')
     }
 }
 
@@ -221,7 +261,18 @@ const Navigator = StackNavigator(
     {
         Tab:{screen:Tab},
         IndexDetail:{screen:IndexDetailScreen},
-        Login:{screen:loginScreen},
+        Login:{
+            screen:loginScreen,
+            navigationOptions:{
+                title:'手机注册/登录',
+                headerTitleStyle:{
+                    fontSize:18,
+                    color:'#333',
+                    alignSelf : 'center',
+                    marginLeft:-18
+                },
+            },
+        },
         Camera:{screen:cameraScreen},
         Navigation:{
             screen:navigationScreen,

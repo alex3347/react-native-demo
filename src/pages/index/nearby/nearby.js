@@ -18,10 +18,10 @@ class Nearby extends React.Component {
 
     render() {
         let views = [];
-        let data = this.props.market;
-        for(var i in data){
+        let market = this.props.market;
+        for(var i in market){
             views.push(
-                <NearbyItem navigate={this.props.navigate} market={data[i]} key={i}/>
+                <NearbyItem navigate={this.props.navigate} market={market[i]} key={i}/>
             );
         }
         return (

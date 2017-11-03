@@ -17,7 +17,7 @@ class loginBar extends React.Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.left}>您尚未登录，请登录</Text>
-                <TouchableOpacity onPress={() => this.props.navigate('Login',{data:this.state.test})} style={styles.right}>
+                <TouchableOpacity onPress={() => this.props.navigate('Login',{data:this.state.test, navigate:this.props.navigate, goBack:this.props.goBack})} style={styles.right}>
                     <Text style={styles.btn}>登录</Text>
                 </TouchableOpacity>
             </View>
