@@ -24,6 +24,7 @@ class NearbyItem extends React.Component {
 
     render() {
         return (
+        <TouchableOpacity onPress={() => this.props.navigate('IndexDetail')}>
             <View style={styles.container}>
                 <Image
                     source={require('../../../images/temp-hall.png')}
@@ -33,15 +34,17 @@ class NearbyItem extends React.Component {
                     <View style={styles.marketDescribe}>
                         <View style={styles.marketNameContainer} class='nearby-market-name-container'>
                             <Text style={styles.marketName} class="nearby-market-name">{ this.state.placeName }</Text>
-                            <View style={styles.navigation} class="navigation" bindtap="naviTo" data-latitude="{ this.state.latitude }" data-longitude="{ this.state.longitude }" data-lname="{ this.state.placeName }" data-addr="{ this.state.placeAddr }">
-                                <Image
-                                    source={require('../../../images/navigation.png')}
-                                    style={styles.navigationIcon}
-                                />
-                                <TouchableOpacity onPress={() => this.props.navigate('Navigation')}>
+                            <TouchableOpacity onPress={(e) => {
+                                e.stopPropagation();
+                                this.props.navigate('Navigation')}}>
+                                <View style={styles.navigation} class="navigation" bindtap="naviTo" data-latitude="{ this.state.latitude }" data-longitude="{ this.state.longitude }" data-lname="{ this.state.placeName }" data-addr="{ this.state.placeAddr }">
+                                    <Image
+                                        source={require('../../../images/navigation.png')}
+                                        style={styles.navigationIcon}
+                                    />
                                     <Text style={styles.navigationText}>导航</Text>
-                                </TouchableOpacity>
-                            </View>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.marketTime} class='nearby-market-time'>
                             <Image
@@ -76,6 +79,7 @@ class NearbyItem extends React.Component {
                     </View>
                 </View>
             </View>
+        </TouchableOpacity>
         );
     }
 }

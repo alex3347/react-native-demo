@@ -50,6 +50,7 @@ class HomeScreen extends React.Component {
                 }
             }).catch( err=>{
             //请求失败
+            console.log(err)
         })
         this.asyncAppStatus()
         // this.deleteAppStatus()
@@ -89,6 +90,7 @@ class HomeScreen extends React.Component {
                     <Nearby navigate={navigate} market={market}/>
                 </View>
             </ScrollView>
+
         );
     }
 
@@ -240,7 +242,7 @@ const styles = StyleSheet.create({
     icon: {
         height: 22,
         width: 22,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
     },
     container:{
         flex:1,
