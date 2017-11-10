@@ -20,7 +20,8 @@ class GuideScreen extends React.Component {
                 contentContainerStyle={styles.contentContainer}
                 bounces={false}
                 pagingEnabled={true}
-                horizontal={true}>
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
                 <Image source={image1} style={styles.backgroundImage} />
                 <Image source={image2} style={styles.backgroundImage} />
                 <View style={styles.background}>

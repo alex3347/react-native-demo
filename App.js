@@ -11,9 +11,7 @@ import {
 
 import Navigator from './src/pages/index/index';
 import GuideScreen from './src/pages/guide/guide';
-
-import SplashScreen from 'react-native-splash-screen'
-
+import SplashScreen from '@remobile/react-native-splashscreen';
 export default class App extends Component<{}> {
     constructor(props) {
         super(props);
@@ -21,9 +19,9 @@ export default class App extends Component<{}> {
             firstOpen:true
         };
     }
+
     componentDidMount(){
         SplashScreen.hide();
-
         // AsyncStorage.removeItem('firstOpen')
         this.asyncAppStatus()
     }

@@ -70,14 +70,23 @@ class HomeScreen extends React.Component {
         }
         return this.renderComplete(this.state.market);
     }
+
+
+    //加载中
     renderLoadingView() {
         return (
             <View style={styles.waitContainer}>
-                <Text style={styles.waitingText}>Loading...</Text>
+                <Image
+                    source={require('../../images/loading.png')}
+                    style={styles.loading}
+                />
+                <Text style={styles.waitText}>努力加载中...</Text>
             </View>
         );
     }
 
+
+    //加载完成
     renderComplete(market) {
         const { navigate , goBack } = this.props.navigation;
         return (
@@ -236,8 +245,13 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     waitText:{
-      fontSize:30,
-      color:'#333',
+      fontSize:12,
+      color:'#666',
+      marginTop:6
+    },
+    loading:{
+        height: 67,
+        width: 87,
     },
     icon: {
         height: 22,

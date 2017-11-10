@@ -1,14 +1,10 @@
 package com.mktv;
 
+import android.app.Activity;
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.show(this);  // 添加这一句
-        super.onCreate(savedInstanceState);
-    }
+    public static Activity activity;
 
     /**
      * Returns the name of the main component registered from JavaScript.
@@ -16,6 +12,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
+        activity = this;
         return "mktv";
     }
 

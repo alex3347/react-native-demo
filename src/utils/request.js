@@ -1,6 +1,7 @@
 
 
 let common_url = 'http://rapapi.org/mockjsdata/28243/';  //服务器地址
+// let common_url = 'http://mock.eolinker.com/btdZsy90a0d33cea0f1c0235fca60b7e0dace8d11f70223?uri=';  //服务器地址
 let token = '';
 /**
  * @param {string} url 接口地址
