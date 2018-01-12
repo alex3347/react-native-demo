@@ -13,7 +13,6 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 import BillScreen from '../bill/billPage';
 import IndexDetailScreen from './indexDetailPage';
 import mineScreen from '../mine/mine';
-import discountScreen from '../discount/discount';
 import loginScreen from '../login/login';
 import cameraScreen from './camera';
 import navigationScreen from './navigation';
@@ -151,29 +150,6 @@ const Tab = TabNavigator({
             )
         }),
     },
-    Discount:{
-        screen:discountScreen,
-        navigationOptions:({navigation}) => ({
-            tabBarLabel:'优惠',
-            title:'优惠',
-            headerTitleStyle:{
-                alignSelf:'center'
-            },
-            tabBarIcon:({focused}) => (
-                focused
-                    ?
-                    <Image
-                        source={require('../../images/discount-selected.png')}
-                        style={styles.icon}
-                    />
-                    :
-                    <Image
-                        source={require('../../images/discount.png')}
-                        style={styles.icon}
-                    />
-            )
-        }),
-    },
     Bill: {
         screen:BillScreen,
         navigationOptions:({navigation}) => ({
@@ -213,7 +189,7 @@ const Tab = TabNavigator({
                     />
             )
         }),
-    }
+    },
 
 },{
     animationEnabled: false, // 切换页面时不显示动画

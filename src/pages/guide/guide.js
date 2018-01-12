@@ -52,18 +52,18 @@ var styles = StyleSheet.create({
     btnContainer:{
         position:'absolute',
         bottom:40,
-        left:tools.size.width*0.5-40,
-        width:80,
-        height:30,
+        left:tools.size.width*0.5-46,
+        width:92,
+        height:32,
         borderWidth:tools.pixel,
-        borderColor:'#ff5353',
+        borderColor:'#5fa8f6',
         borderRadius:4,
         justifyContent:'center',
         alignItems:'center'
     },
     btn:{
         fontSize:15,
-        color:'#ff5353'
+        color:'#5fa8f6'
     },
 });
 
