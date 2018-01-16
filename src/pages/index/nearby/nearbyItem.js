@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 
-class NearbyItem extends React.Component {
+class NearbyItem extends Component {
     constructor(props){
         super(props);
         let market = this.props.market;
@@ -188,12 +188,13 @@ const styles = StyleSheet.create({
     },
     market:{
         flexDirection:'column',
-        width:265,
+        minWidth:265,
     },
     marketIcon:{
         width:60,
         height:60,
-        marginTop:10
+        marginTop:10,
+        marginRight:12
     },
     marketDescribe:{
         borderBottomWidth:1,
@@ -252,7 +253,8 @@ const styles = StyleSheet.create({
     marketDiscount:{
         flexDirection:'row',
         alignItems:'center',
-        marginTop:4
+        marginTop:4,
+        width:265
     },
     marketActivityFirstTitle:{
         width: 14,
@@ -267,7 +269,7 @@ const styles = StyleSheet.create({
         paddingLeft:11,
         fontSize: 11,
         color: '#999',
-
+        flexWrap:'wrap'
     },
     marketActivitySecTitle:{
         width: 14,

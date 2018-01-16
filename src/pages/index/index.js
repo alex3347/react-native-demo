@@ -5,7 +5,6 @@ import {
     Image,
     Text,
     ScrollView,
-    AsyncStorage,
     DeviceEventEmitter
 } from 'react-native';
 
@@ -20,8 +19,9 @@ import LoginBar from './loginBar';
 import ScanBtn from './scanBtn';
 import Nearby from './nearby/nearby';
 import fetchRequest from '../../utils/request';
+import {asyncAppStatus} from '../../utils/asyncAppStatus';
 
-class HomeScreen extends React.Component {
+class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -51,8 +51,10 @@ class HomeScreen extends React.Component {
             //请求失败
             console.log(err)
         })
-        this.asyncAppStatus()
-        // this.deleteAppStatus()
+
+        //读取本地状态
+        asyncAppStatus.bind(this)()
+
 
         DeviceEventEmitter.addListener('ChangeLoginStatus',(arg)=>{
             //接收到详情页发送的通知，刷新首页的数据，改变按钮颜色和文字，刷新UI
@@ -102,30 +104,6 @@ class HomeScreen extends React.Component {
         );
     }
 
-    //判断本地登录状态
-    asyncAppStatus(){
-        AsyncStorage.getItem('user')
-            .then((data) => {
-                let user
-                let newState = {}
-
-                if(data){
-                    user = JSON.parse(data)
-                }
-
-                if(user && user.accessToken){
-                    newState.user = user
-                    newState.logined = true
-                }else{
-                    newState.logined = false
-                }
-                this.setState(newState)
-            })
-    }
-    //删除已经保存的数据
-    deleteAppStatus() {
-        AsyncStorage.removeItem('user')
-    }
 }
 
 

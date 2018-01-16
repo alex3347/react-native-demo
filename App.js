@@ -17,7 +17,7 @@ export default class App extends Component<{}> {
 
     componentDidMount(){
         SplashScreen.hide();
-        AsyncStorage.removeItem('firstOpen')
+        // AsyncStorage.removeItem('firstOpen')
         this.asyncAppStatus()
     }
 

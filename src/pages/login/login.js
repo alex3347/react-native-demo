@@ -12,8 +12,9 @@ import {
 } from 'react-native';
 import fetchRequest from '../../utils/request';
 import tools from '../../utils/tools';
+import { NavigationActions } from 'react-navigation'
 
-class loginScreen extends React.Component {
+class loginScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -81,7 +82,7 @@ class loginScreen extends React.Component {
     }
 
     //登录按钮事件
-    submit(goBack){
+    submit(){
         let phoneNumber = this.state.phoneNumber;
         let verifyCode = this.state.verifyCode;
 
@@ -92,14 +93,21 @@ class loginScreen extends React.Component {
             phoneNumber:phoneNumber,
             verifyCode:verifyCode
         }
+
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'Tab'})
+            ]
+        })
+
         fetchRequest('api/u/verify','POST',params)
             .then( res=>{
                 //请求成功
                 if(res.success){
                     //这里设定服务器返回的res中success为true时数据返回成功
                     this.afterLogined(res.data);
-                    // navigate('Tab')
-                    goBack(null)
+                    this.props.navigation.dispatch(resetAction)
                 }
             }).catch( err=>{
             //请求失败
@@ -162,7 +170,7 @@ class loginScreen extends React.Component {
                         title="立即登录"
                         color="#09bb07"
                         accessibilityLabel="这是立即登录按钮"
-                        onPress={() => this.submit(goBack)}
+                        onPress={() => this.submit()}
                     />
                     <View style={styles.introduce}>
                         <Text style={styles.textLeft}>点击登录，即表示已阅读并同意</Text>

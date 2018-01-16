@@ -3,49 +3,86 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
+import {asyncAppStatus,removeAsyncAppStatus} from '../../utils/asyncAppStatus';
+import { NavigationActions } from 'react-navigation'
 
-class mineScreen extends React.Component {
+class mineScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            logined:false,
+            user:null
+        };
+    }
+
+
+    componentDidMount() {
+        //读取本地状态
+        asyncAppStatus.bind(this)()
+
+    }
     render() {
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'Tab'})
+            ]
+        })
 
         return (
             <View style={styles.container}>
                 <View style={styles.mineInfo}>
                     <View style={styles.top}>
-                        <Image style={styles.avatar} source={require('../../images/head-pic-1.png')}/>
+                        {
+                            this.state.logined ?
+                            <Image style={styles.avatar} source={require('../../images/head-pic-1.png')}/>
+                            :
+                            <Image style={styles.avatar} source={require('../../images/head-none-pic.png')}/>
+                        }
                         <View style={styles.nameModel}>
-                            <Text style={styles.name}>用户昵称</Text>
-                            <View style={styles.wxName}>
-                                <Text style={styles.number}>微信号：</Text>
-                                <Text style={styles.numberContent}>1234561212</Text>
-                            </View>
+                            <Text style={styles.name}>{this.state.logined ? '学不可以已' : '未登录'}</Text>
+                            {
+                                this.state.logined ?
+                                <View style={styles.wxName}>
+                                    <Text style={styles.number}>微信号：</Text>
+                                    <Text style={styles.numberContent}>1234561212</Text>
+                                </View>
+                                :
+                                null
+                            }
                         </View>
                     </View>
-
-                    <View style={styles.down}>
-                        <View style={styles.item}>
-                            <View style={styles.content}>
-                                <Text style={[styles.contentNumber,styles.red]}>20</Text>
-                                <Text style={[styles.contentUnit,styles.red]}>元</Text>
+                    {
+                        this.state.logined ?
+                        <View style={styles.down}>
+                            <View style={styles.item}>
+                                <View style={styles.content}>
+                                    <Text style={[styles.contentNumber,styles.red]}>20</Text>
+                                    <Text style={[styles.contentUnit,styles.red]}>元</Text>
+                                </View>
+                                <Text style={styles.describe}>我的钱包</Text>
                             </View>
-                            <Text style={styles.describe}>我的钱包</Text>
-                        </View>
-                        <View style={[styles.item,styles.middle]}>
-                            <View style={styles.content}>
-                                <Text style={[styles.contentNumber,styles.yellow]}>3</Text>
-                                <Text style={[styles.contentUnit,styles.yellow]}>个</Text>
+                            <View style={[styles.item,styles.middle]}>
+                                <View style={styles.content}>
+                                    <Text style={[styles.contentNumber,styles.yellow]}>3</Text>
+                                    <Text style={[styles.contentUnit,styles.yellow]}>个</Text>
+                                </View>
+                                <Text style={styles.describe}>我的红包</Text>
                             </View>
-                            <Text style={styles.describe}>我的红包</Text>
-                        </View>
-                        <View style={styles.item}>
-                            <View style={styles.content}>
-                                <Text style={[styles.contentNumber,styles.green]}>100</Text>
-                                <Text style={[styles.contentUnit,styles.green]}>元</Text>
+                            <View style={styles.item}>
+                                <View style={styles.content}>
+                                    <Text style={[styles.contentNumber,styles.green]}>100</Text>
+                                    <Text style={[styles.contentUnit,styles.green]}>元</Text>
+                                </View>
+                                <Text style={styles.describe}>我的押金</Text>
                             </View>
-                            <Text style={styles.describe}>我的押金</Text>
                         </View>
-                    </View>
+                        :
+                        null
+                    }
                 </View>
                 <View style={styles.mineCategory}>
                     <View style={styles.mineCategoryItem}>
@@ -66,14 +103,20 @@ class mineScreen extends React.Component {
                             <Image style={styles.itemRightImage} source={require('../../images/arrow-right.png')}/>
                         </View>
                     </View>
-                    {/*<View style={styles.loginBtn}>*/}
-                        {/*<View style={styles.topBtn}>*/}
-                            {/*<Image source={require('../../images/wechat.png')}/>*/}
-                            {/*<Text>登录</Text>*/}
-                        {/*</View>*/}
-                    {/*</View>*/}
-
                 </View>
+                {
+                    this.state.logined ?
+                        <TouchableOpacity style={styles.logoutBtn} onPress={() => {
+                            removeAsyncAppStatus()
+                            this.props.navigation.dispatch(resetAction)
+                        }}>
+                            <Text style={styles.logoutBtnText}>退出登录</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.loginBtn} onPress={() => this.props.navigation.navigate('Login',{data:'', navigate:this.props.navigate})}>
+                            <Text style={styles.loginBtnText}>立即登录</Text>
+                        </TouchableOpacity>
+                }
             </View>
         );
     }
@@ -221,6 +264,38 @@ const styles = StyleSheet.create({
         height: 16,
         marginLeft: 20,
         marginRight: 12,
+    },
+    logoutBtn:{
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent:'center',
+        marginTop: 40,
+        marginLeft:'auto',
+        marginRight:'auto',
+        width: 375,
+        height: 44,
+        backgroundColor: '#fff',
+        borderRadius: 6,
+    },
+    logoutBtnText:{
+        color: '#ff5353',
+        fontSize: 17,
+    },
+    loginBtn:{
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent:'center',
+        marginTop: 40,
+        marginLeft:'auto',
+        marginRight:'auto',
+        width: 350,
+        height: 44,
+        backgroundColor: '#ff5353',
+        borderRadius: 6,
+    },
+    loginBtnText:{
+        color: '#fff',
+        fontSize: 17,
     },
 })
 

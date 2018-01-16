@@ -13,7 +13,7 @@ let image2 = require('../../images/guide/guide_2.png');
 let image3 = require('../../images/guide/guide_3.png');
 import tools from '../../utils/tools';
 
-class GuideScreen extends React.Component {
+class GuideScreen extends Component {
     render() {
         return (
             <ScrollView

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import NearbyItem from './nearbyItem';
 
-class Nearby extends React.Component {
+class Nearby extends Component {
     constructor(props){
         super(props);
         this.state = {
