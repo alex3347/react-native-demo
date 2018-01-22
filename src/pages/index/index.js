@@ -29,7 +29,7 @@ class HomeScreen extends Component {
             longitude:'',
             latitude:'',
             logined:false,
-            user:null
+            user:null,
         };
     }
 
@@ -230,7 +230,9 @@ const styles = StyleSheet.create({
 const Navigator = StackNavigator(
     {
         Tab:{screen:Tab},
-        IndexDetail:{screen:IndexDetailScreen},
+        IndexDetail:{
+            screen:IndexDetailScreen,
+        },
         Login:{
             screen:loginScreen,
             navigationOptions:{

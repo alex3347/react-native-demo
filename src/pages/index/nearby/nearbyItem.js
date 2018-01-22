@@ -25,7 +25,12 @@ class NearbyItem extends Component {
 
     render() {
         return (
-        <TouchableOpacity onPress={() => this.props.navigate('IndexDetail')}>
+        <TouchableOpacity onPress={() => this.props.navigate('IndexDetail',{
+            newUserStr:this.state.newUserStr,
+            oldUserStr:this.state.oldUserStr,
+            payStr:this.state.payStr,
+            placeName:this.state.placeName
+        })}>
             <View style={styles.container}>
                 <Image
                     source={require('../../../images/temp-hall.png')}

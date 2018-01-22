@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
     },
     billItemDetail: {
-        minWidth: 300,
+        width: 276,
         marginLeft: 12,
         flexDirection: 'column',
     },
